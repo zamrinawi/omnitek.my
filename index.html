@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JemLee | OmniTek — Pembangun Sistem & Laman Web Malaysia</title>
+<meta name="description" content="JemLee (OmniTek) membangunkan sistem digital & laman web untuk PKS, persatuan, agensi kerajaan dan pengurusan hartanah di Malaysia — dari SME Point hingga YPJ.gov.my.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --ink:#0b1220;
+    --ink-2:#111a2e;
+    --navy:#0f1b33;
+    --indigo:#4f46e5;
+    --indigo-light:#818cf8;
+    --sky:#0ea5e9;
+    --gold:#f2b705;
+    --slate:#5b6478;
+    --muted:#8891a5;
+    --line:#e6e9f0;
+    --cream:#f7f8fc;
+    --white:#ffffff;
+    --ok:#16a34a;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;
+    color:var(--ink); background:var(--white);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.brand,.stat-num{font-family:'Sora',sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  section{position:relative;}
+  ::selection{background:var(--indigo);color:#fff;}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    background:rgba(11,18,32,.0);
+    border-bottom:1px solid transparent;
+    transition:background .25s ease, border-color .25s ease, backdrop-filter .25s ease;
+  }
+  header.nav.scrolled{background:rgba(11,18,32,.92);backdrop-filter:blur(10px);border-color:rgba(255,255,255,.08);}
+  .nav-inner{max-width:1180px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:17px;letter-spacing:.2px;}
+  .brand .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--indigo),var(--sky));display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:800;flex-shrink:0;}
+  .brand small{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:10.5px;color:var(--indigo-light);letter-spacing:1.5px;text-transform:uppercase;}
+  .nav-links{display:flex;gap:30px;align-items:center;}
+  .nav-links a{color:rgba(255,255,255,.82);font-size:14px;font-weight:600;transition:color .15s;}
+  .nav-links a:hover{color:#fff;}
+  .nav-cta{padding:10px 20px;background:linear-gradient(135deg,var(--indigo),var(--sky));border-radius:9px;color:#fff !important;font-weight:700;font-size:13.5px;box-shadow:0 6px 18px rgba(79,70,229,.35);}
+  .hamburger{display:none;background:none;border:none;color:#fff;font-size:20px;cursor:pointer;}
+  .mobile-menu{display:none;}
+  .mobile-menu.open{display:flex;flex-direction:column;gap:4px;position:fixed;top:64px;left:0;right:0;background:var(--ink);padding:18px 24px 26px;z-index:199;border-bottom:1px solid rgba(255,255,255,.08);}
+  .mobile-menu a{color:rgba(255,255,255,.85);font-size:15px;font-weight:600;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(ellipse 70% 55% at 15% 0%, rgba(79,70,229,.35) 0%, transparent 55%),
+      radial-gradient(ellipse 55% 50% at 85% 15%, rgba(14,165,233,.28) 0%, transparent 55%),
+      radial-gradient(ellipse 45% 60% at 55% 90%, rgba(242,183,5,.10) 0%, transparent 55%),
+      linear-gradient(180deg,#0b1220 0%, #0f1b33 55%, #0b1220 100%);
+    padding:168px 0 96px; color:#fff; overflow:hidden; position:relative;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size:46px 46px;
+    mask-image:linear-gradient(180deg, black, transparent 85%);
+  }
+  .hero-slideshow{position:absolute;inset:0;z-index:1;overflow:hidden;}
+  .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.6s ease;}
+  .hero-slide.active{opacity:1;}
+  .hero-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+  .hero-slideshow::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(11,18,32,.74) 0%, rgba(11,18,32,.8) 50%, rgba(11,18,32,.92) 100%);}
+  .hero-slide-dots{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;gap:8px;z-index:2;}
+  .hero-slide-dots button{width:8px;height:8px;border-radius:50%;border:none;background:rgba(255,255,255,.35);cursor:pointer;padding:0;transition:background .2s ease,transform .2s ease;}
+  .hero-slide-dots button.active{background:#fff;transform:scale(1.2);}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;position:relative;z-index:2;}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;color:var(--indigo-light);text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;}
+  .eyebrow::before{content:'';width:26px;height:2px;background:var(--gold);border-radius:2px;}
+  .hero h1{font-size:clamp(32px,4.4vw,50px);font-weight:800;line-height:1.14;letter-spacing:-.5px;margin-bottom:20px;}
+  .hero h1 span{background:linear-gradient(90deg,var(--indigo-light),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .hero p.lead{font-size:16.5px;color:rgba(255,255,255,.68);line-height:1.75;max-width:520px;margin-bottom:32px;}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px;}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:11px;font-weight:700;font-size:14.5px;transition:all .2s ease;cursor:pointer;border:none;font-family:inherit;}
+  .btn-primary{background:linear-gradient(135deg,var(--indigo),var(--sky));color:#fff;box-shadow:0 10px 28px rgba(79,70,229,.35);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(79,70,229,.45);}
+  .btn-ghost{border:1.5px solid rgba(255,255,255,.28);color:#fff;}
+  .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.06);}
+  .btn-dark{border:1.5px solid var(--line);color:var(--ink);}
+  .btn-dark:hover{border-color:var(--indigo);color:var(--indigo);}
+  .hero-trust{display:flex;gap:26px;flex-wrap:wrap;font-size:12.5px;color:rgba(255,255,255,.55);}
+  .hero-trust span{display:flex;align-items:center;gap:7px;}
+  .hero-trust i{color:var(--gold);}
+
+  .hero-card{
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;
+    padding:28px;backdrop-filter:blur(6px);position:relative;z-index:2;
+    box-shadow:0 30px 60px rgba(0,0,0,.35);
+  }
+  .hero-card-top{display:flex;align-items:center;gap:14px;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.09);}
+  .avatar{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--indigo),var(--sky));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#fff;flex-shrink:0;}
+  .hero-card-top h4{color:#fff;font-size:15.5px;font-weight:700;}
+  .hero-card-top p{color:rgba(255,255,255,.5);font-size:12.5px;margin-top:2px;}
+  .mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .mini-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;}
+  .mini-stat .num{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px;}
+  .mini-stat .lbl{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:4px;line-height:1.4;}
+  .mini-stat i{color:var(--gold);font-size:13px;margin-bottom:6px;display:block;}
+
+  /* ---------- STATS STRIP ---------- */
+  .stats-strip{background:var(--ink-2);padding:0;}
+  .stats-inner{max-width:1180px;margin:0 auto;padding:34px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .stat{text-align:center;position:relative;}
+  .stat+.stat::before{content:'';position:absolute;left:-10px;top:8px;bottom:8px;width:1px;background:rgba(255,255,255,.1);}
+  .stat .stat-num{font-size:clamp(22px,2.6vw,32px);font-weight:800;color:#fff;letter-spacing:-.5px;}
+  .stat .stat-lbl{font-size:12.5px;color:rgba(255,255,255,.5);margin-top:5px;}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec{padding:96px 0;}
+  .sec-cream{background:var(--cream);}
+  .sec-eyebrow{font-size:12.5px;font-weight:800;color:var(--indigo);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;gap:9px;}
+  .sec-eyebrow::before{content:'';width:24px;height:3px;background:var(--gold);border-radius:2px;}
+  .sec-eyebrow.center{justify-content:center;}
+  .sec-title{font-size:clamp(26px,3.2vw,38px);font-weight:800;letter-spacing:-.6px;line-height:1.18;margin-bottom:16px;}
+  .sec-title.center{text-align:center;}
+  .sec-sub{font-size:16px;color:var(--slate);line-height:1.75;max-width:600px;}
+  .sec-sub.center{text-align:center;margin:0 auto 52px;}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:center;}
+  .about-photo{position:relative;}
+  .photo-frame{aspect-ratio:1/1.05;border-radius:22px;background:linear-gradient(150deg,var(--indigo) 0%, var(--sky) 55%, #0b1220 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 26px 54px rgba(79,70,229,.22);}
+  .photo-frame::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);background-size:34px 34px;}
+  .photo-initials{font-size:96px;font-weight:800;color:rgba(255,255,255,.92);font-family:'Sora',sans-serif;position:relative;z-index:1;}
+  .photo-frame.has-photo::before{display:none;}
+  .photo-img{width:100%;height:100%;object-fit:cover;object-position:center 22%;position:relative;z-index:1;}
+  .photo-badge{position:absolute;bottom:-16px;left:-16px;z-index:5;background:#fff;border-radius:14px;padding:14px 18px;box-shadow:0 14px 34px rgba(15,23,42,.16);display:flex;align-items:center;gap:10px;}
+  .photo-badge i{color:var(--ok);font-size:16px;}
+  .photo-badge strong{display:block;font-size:13.5px;}
+  .photo-badge span{font-size:11px;color:var(--muted);}
+  .about-body p{color:var(--slate);font-size:15.5px;line-height:1.85;margin-bottom:16px;}
+  .about-tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px;}
+  .tag{padding:8px 14px;border-radius:9999px;background:var(--cream);border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--ink);}
+
+  /* ---------- PORTFOLIO ---------- */
+  .filter-bar{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-bottom:44px;}
+  .filter-btn{padding:10px 20px;border-radius:9999px;border:1.5px solid var(--line);background:#fff;font-size:13.5px;font-weight:700;color:var(--slate);cursor:pointer;transition:all .15s;font-family:inherit;}
+  .filter-btn:hover{border-color:var(--indigo);color:var(--indigo);}
+  .filter-btn.active{background:var(--indigo);border-color:var(--indigo);color:#fff;}
+  .port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .port-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;}
+  .port-card:hover{transform:translateY(-4px);box-shadow:0 20px 42px rgba(15,23,42,.10);border-color:rgba(79,70,229,.3);}
+  .port-top{padding:22px 22px 0;}
+  .port-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;color:#fff;margin-bottom:14px;}
+  .port-cat{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--indigo);margin-bottom:6px;}
+  .port-name{font-size:17px;font-weight:800;letter-spacing:-.2px;margin-bottom:8px;}
+  .port-desc{font-size:13.5px;color:var(--slate);line-height:1.7;margin-bottom:14px;}
+  .port-for{font-size:12.5px;color:var(--muted);background:var(--cream);border-radius:10px;padding:10px 12px;line-height:1.6;margin:0 22px 18px;}
+  .port-for b{color:var(--ink);}
+  .port-bottom{margin-top:auto;display:flex;border-top:1px solid var(--line);}
+  .port-link{flex:1;text-align:center;padding:13px;font-size:12.5px;font-weight:700;color:var(--indigo);transition:background .15s;}
+  .port-link:hover{background:var(--cream);}
+  .port-link+.port-link{border-left:1px solid var(--line);}
+  .badge-stat{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--ok);background:#f0fdf4;border:1px solid #bbf7d0;padding:4px 10px;border-radius:9999px;margin:0 22px 14px;width:fit-content;}
+
+  /* icon color variants */
+  .ic-1{background:linear-gradient(135deg,#059669,#10b981);} /* accounting green */
+  .ic-2{background:linear-gradient(135deg,#7c3aed,#a78bfa);} /* ngo purple */
+  .ic-3{background:linear-gradient(135deg,#2563eb,#60a5fa);} /* hr blue */
+  .ic-4{background:linear-gradient(135deg,#334155,#64748b);} /* ops slate */
+  .ic-5{background:linear-gradient(135deg,#ea580c,#fb923c);} /* biz orange */
+  .ic-6{background:linear-gradient(135deg,#b45309,#f2b705);} /* gold catering */
+  .ic-7{background:linear-gradient(135deg,#1d4ed8,#3b82f6);} /* gov blue */
+  .ic-8{background:linear-gradient(135deg,#0891b2,#22d3ee);} /* water cyan */
+  .ic-9{background:linear-gradient(135deg,#9d174d,#f472b6);} /* wedding pink/maroon */
+  .ic-10{background:linear-gradient(135deg,#4338ca,#818cf8);} /* jmb indigo */
+  .ic-11{background:linear-gradient(135deg,#0f766e,#2dd4bf);} /* building teal */
+
+  /* ---------- WHY ---------- */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:8px;}
+  .why-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 24px;transition:box-shadow .2s, border-color .2s;}
+  .why-card:hover{box-shadow:0 14px 32px rgba(15,23,42,.08);border-color:rgba(79,70,229,.25);}
+  .why-icon{width:44px;height:44px;border-radius:11px;background:linear-gradient(135deg,var(--indigo),var(--sky));display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;margin-bottom:16px;}
+  .why-card h3{font-size:16px;font-weight:800;margin-bottom:8px;}
+  .why-card p{font-size:13.5px;color:var(--slate);line-height:1.7;}
+
+  /* ---------- PROCESS ---------- */
+  .steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:8px;}
+  .step-col{border-top:3px solid var(--gold);padding-top:20px;}
+  .step-num{font-size:12px;font-weight:800;color:var(--indigo);letter-spacing:2px;margin-bottom:9px;}
+  .step-title{font-size:15.5px;font-weight:800;margin-bottom:7px;}
+  .step-desc{font-size:13.5px;color:var(--slate);line-height:1.7;}
+
+  /* ---------- CTA BANNER ---------- */
+  .cta-banner{background:var(--ink);padding:80px 0;position:relative;overflow:hidden;}
+  .cta-banner::before{content:'';position:absolute;top:-120px;right:-100px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle, rgba(242,183,5,.14), transparent 70%);pointer-events:none;}
+  .cta-inner{max-width:760px;margin:0 auto;text-align:center;position:relative;z-index:2;}
+  .cta-inner .sec-eyebrow{color:var(--gold);justify-content:center;}
+  .cta-inner .sec-eyebrow::before{background:var(--indigo-light);}
+  .cta-inner h2{color:#fff;font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-.6px;margin-bottom:16px;}
+  .cta-inner p{color:rgba(255,255,255,.65);font-size:15.5px;line-height:1.75;margin-bottom:30px;}
+  .cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start;}
+  .contact-list{display:flex;flex-direction:column;gap:18px;margin-top:28px;}
+  .contact-item{display:flex;gap:14px;align-items:flex-start;}
+  .contact-item .ic{width:42px;height:42px;border-radius:11px;background:var(--cream);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--indigo);flex-shrink:0;}
+  .contact-item h4{font-size:14px;font-weight:800;margin-bottom:3px;}
+  .contact-item p, .contact-item a{font-size:13.5px;color:var(--slate);}
+  .contact-item a:hover{color:var(--indigo);}
+  .note-placeholder{margin-top:22px;font-size:12px;color:var(--muted);background:#fffbeb;border:1px dashed #fde68a;padding:12px 14px;border-radius:10px;line-height:1.6;}
+
+  .form-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:32px;box-shadow:0 20px 50px rgba(15,23,42,.06);}
+  .fg{margin-bottom:16px;}
+  .fg label{display:block;font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:7px;}
+  .fg input,.fg select,.fg textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:14px;color:var(--ink);background:var(--cream);transition:border-color .15s, background .15s;}
+  .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--indigo);background:#fff;}
+  .fg textarea{resize:vertical;min-height:100px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .submit-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--indigo),var(--sky));color:#fff;border:none;border-radius:11px;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 10px 26px rgba(79,70,229,.3);transition:transform .15s;}
+  .submit-btn:hover{transform:translateY(-2px);}
+  .form-hint{font-size:11.5px;color:var(--muted);margin-top:12px;text-align:center;}
+  .form-hint.ok{color:var(--ok);font-weight:600;}
+  .form-hint.err{color:#dc2626;font-weight:600;}
+  .hp-field{position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;width:0;overflow:hidden;}
+  .submit-btn:disabled{opacity:.65;cursor:not-allowed;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:#080d1a;padding:52px 0 26px;}
+  .footer-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:36px;}
+  .footer-brand{max-width:300px;}
+  .footer-brand .brand{margin-bottom:12px;}
+  .footer-brand p{font-size:13px;color:#6b7280;line-height:1.7;}
+  .footer-social{display:flex;gap:10px;margin-top:16px;}
+  .footer-social a{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:13px;transition:all .15s;}
+  .footer-social a:hover{background:var(--indigo);color:#fff;}
+  .footer-col h4{font-size:11.5px;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .footer-col a{font-size:13.5px;color:#6b7280;transition:color .15s;}
+  .footer-col a:hover{color:#fff;}
+  .footer-btm{border-top:1px solid #1a2236;padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:#4b5563;}
+
+  .whatsapp-float{position:fixed;right:22px;bottom:22px;z-index:150;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 10px 26px rgba(37,211,102,.4);transition:transform .2s;}
+  .whatsapp-float:hover{transform:scale(1.08);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .hero-grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;gap:40px;}
+    .contact-grid{grid-template-columns:1fr;}
+    .port-grid{grid-template-columns:1fr 1fr;}
+    .why-grid{grid-template-columns:1fr 1fr;}
+    .steps-row{grid-template-columns:1fr 1fr;}
+    .stats-inner{grid-template-columns:1fr 1fr;}
+    .stat+.stat::before{display:none;}
+  }
+  @media (max-width:760px){
+    .nav-links,.nav-cta{display:none;}
+    .hamburger{display:block;}
+    .port-grid{grid-template-columns:1fr;}
+    .why-grid{grid-template-columns:1fr;}
+    .steps-row{grid-template-columns:1fr;}
+    .form-row{grid-template-columns:1fr;}
+    .hero{padding-top:132px;}
+    .sec{padding:70px 0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="siteNav">
+  <div class="nav-inner">
+    <a href="#hero" class="brand"><span class="mark">OT</span><span>JemLee<small>OmniTek &middot; Pembangun Sistem</small></span></a>
+    <nav class="nav-links">
+      <a href="#tentang">Tentang</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#kepakaran">Kepakaran</a>
+      <a href="#proses">Proses</a>
+      <a href="#hubungi">Hubungi</a>
+    </nav>
+    <a href="#hubungi" class="nav-cta">Mula Projek Anda</a>
+    <button class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#tentang">Tentang</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#kepakaran">Kepakaran</a>
+    <a href="#proses">Proses</a>
+    <a href="#hubungi">Hubungi</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-slideshow" aria-hidden="true">
+    <div class="hero-slide active"><img src="https://picsum.photos/1600/900?random=21" alt=""></div>
+    <div class="hero-slide"><img src="https://picsum.photos/1600/900?random=22" alt=""></div>
+    <div class="hero-slide-dots" id="heroDots"></div>
+  </div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Pembangun Sistem &amp; Laman Web Malaysia</div>
+      <h1>Membina sistem digital yang <span>dipercayai</span> — dari PKS hingga agensi kerajaan.</h1>
+      <p class="lead">Saya JemLee, di sebalik jenama <strong>OmniTek</strong>. Setiap sistem yang saya bina lahir daripada pengalaman sebenar menjalankan perniagaan — merentasi sektor perniagaan, persatuan, hartanah dan sektor awam di Malaysia, sehingga sistem itu benar-benar digunakan setiap hari.</p>
+      <div class="hero-btns">
+        <a href="#portfolio" class="btn btn-primary"><i class="fas fa-layer-group"></i> Lihat Portfolio Sistem</a>
+        <a href="#hubungi" class="btn btn-ghost"><i class="fas fa-paper-plane"></i> Bincang Projek Anda</a>
+      </div>
+      <div class="hero-trust">
+        <span><i class="fas fa-check-circle"></i> 11+ sistem &amp; laman web dalam operasi</span>
+        <span><i class="fas fa-check-circle"></i> Klien korporat, NGO &amp; kerajaan</span>
+        <span><i class="fas fa-check-circle"></i> Patuh LHDN, ROS &amp; standard keselamatan</span>
+      </div>
+    </div>
+    <div class="hero-card reveal">
+      <div class="hero-card-top">
+        <div class="avatar">JL</div>
+        <div>
+          <h4>JemLee</h4>
+          <p>Full-Stack System Developer &middot; OmniTek</p>
+        </div>
+      </div>
+      <div class="mini-stats">
+        <div class="mini-stat"><i class="fas fa-cubes"></i><div class="num">11+</div><div class="lbl">Sistem &amp; laman web dibangunkan</div></div>
+        <div class="mini-stat"><i class="fas fa-building-columns"></i><div class="num">1</div><div class="lbl">Agensi kerajaan negeri (YPJ)</div></div>
+        <div class="mini-stat"><i class="fas fa-shield-check"></i><div class="num">Patuh</div><div class="lbl">LHDN MyInvois, ROS &amp; Akta Pertubuhan 1966</div></div>
+        <div class="mini-stat"><i class="fas fa-users"></i><div class="num">Aktif</div><div class="lbl">Digunakan pengguna sebenar setiap hari</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">6+</div><div class="stat-lbl">Sektor industri dideservekan</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Sistem dalam ekosistem BMS Malaysia</div></div>
+    <div class="stat"><div class="stat-num">150+</div><div class="stat-lbl">Vendor berdaftar (JemputanKahwin.my)</div></div>
+    <div class="stat"><div class="stat-num">4.9★</div><div class="stat-lbl">Rating pengguna purata</div></div>
+  </div>
+</div>
+
+<!-- TENTANG -->
+<section class="sec" id="tentang">
+  <div class="wrap about-grid">
+    <div class="about-photo reveal">
+      <div class="photo-frame has-photo">
+        <img src="jemlee-photo.jpg" alt="JemLee — Pembangun Sistem, OmniTek" class="photo-img">
+      </div>
+      <div class="photo-badge">
+        <i class="fas fa-shield-check"></i>
+        <div><strong>Rekod Projek</strong><span>Fokus Sistem PKS &amp; SME</span></div>
+      </div>
+    </div>
+    <div class="about-body reveal">
+      <div class="sec-eyebrow">Tentang Saya</div>
+      <h2 class="sec-title">Dibina daripada pengalaman perniagaan sebenar, bukan sekadar idea.</h2>
+      <p>Saya JemLee, pembangun sistem dan laman web yang beroperasi di bawah jenama <strong>OmniTek</strong>. Setiap sistem yang saya bina bukan bermula daripada idea semata-mata — tetapi daripada masalah sebenar yang pernah saya sendiri hadapi semasa menjalankan perniagaan. Pengalaman itulah yang membentuk cara saya membina sistem: bukan sekadar cantik di skrin demo, tetapi kukuh apabila ratusan pengguna sebenar log masuk setiap hari.</p>
+      <p>Dari sistem perakaunan PKS yang patuh LHDN MyInvois, platform pengurusan persatuan yang patuh Akta Pertubuhan 1966, laman web rasmi agensi kerajaan negeri, sehingga sistem pengurusan bangunan &amp; pengebilan air untuk Joint Management Body (JMB) — saya membangunkan merentasi pelbagai industri dengan keperluan pematuhan dan keselamatan yang berbeza-beza, namun asasnya sama: menyelesaikan masalah operasi harian yang benar-benar dihadapi peniaga.</p>
+      <p>Matlamat saya mudah: membantu PKS &amp; SME yang menghadapi cabaran sama seperti yang pernah saya lalui, dengan sistem yang mereka boleh yakini akan <em>terus berfungsi</em> untuk kembangkan perniagaan — bukan sekadar siap dilancarkan.</p>
+      <div class="about-tags">
+        <span class="tag">Pembangunan Web &amp; Sistem</span>
+        <span class="tag">Integrasi Pembayaran (FPX)</span>
+        <span class="tag">Pematuhan LHDN &amp; ROS</span>
+        <span class="tag">Sistem Pengurusan Hartanah</span>
+        <span class="tag">Platform Multi-Peranan</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="sec sec-cream" id="portfolio">
+  <div class="wrap">
+    <div class="sec-eyebrow center">Portfolio Sistem</div>
+    <h2 class="sec-title center">Sistem yang telah saya bangunkan &amp; sedang beroperasi</h2>
+    <p class="sec-sub center">Setiap sistem di bawah sedang digunakan oleh pengguna sebenar hari ini. Klik pautan untuk lawati sistem secara langsung.</p>
+
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all">Semua</button>
+      <button class="filter-btn" data-filter="fintech">Perakaunan &amp; Kewangan</button>
+      <button class="filter-btn" data-filter="ngo">Persatuan / NGO</button>
+      <button class="filter-btn" data-filter="hr">HR</button>
+      <button class="filter-btn" data-filter="projek">Pengurusan Projek</button>
+      <button class="filter-btn" data-filter="property">Hartanah / JMB</button>
+      <button class="filter-btn" data-filter="event">Acara / Katering</button>
+      <button class="filter-btn" data-filter="gov">Kerajaan</button>
+    </div>
+
+    <div class="port-grid" id="portGrid">
+
+      <div class="port-card reveal" data-cat="fintech">
+        <div class="port-top">
+          <div class="port-icon ic-1"><i class="fas fa-file-invoice-dollar"></i></div>
+          <div class="port-cat">Perakaunan &amp; Percukaian PKS</div>
+          <div class="port-name">SME Point</div>
+          <p class="port-desc">Sistem perakaunan pintar untuk PKS Malaysia — sedia untuk LHDN MyInvois, auto-kira SST &amp; terima bayaran terus melalui FPX.</p>
+        </div>
+        <div class="port-for"><b>Sesuai untuk:</b> Perniagaan kecil &amp; sederhana yang mahu urus invois, cukai dan bayaran dalam satu sistem tanpa Excel berselerak.</div>
+        <div class="port-bottom">
+          <a href="https://sme-point.my" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Lawati Sistem</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="ngo">
+        <div class="port-top">
+          <div class="port-icon ic-2"><i class="fas fa-people-group"></i></div>
+          <div class="port-cat">Pengurusan Persatuan</div>
+          <div class="port-name">mySetia</div>
+          <p class="port-desc">Platform pengurusan semua jenis persatuan berdaftar ROS — keahlian, AGM digital, e-voting selamat, kewangan berganda &amp; auto-jana Borang 9/11.</p>
+        </div>
+        <div class="port-for"><b>Sesuai untuk:</b> Persatuan, kelab &amp; pertubuhan yang perlu urus tadbir digital dan kekal patuh Akta Pertubuhan 1966.</div>
+        <div class="port-bottom">
+          <a href="https://mysetia.my" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Lawati Sistem</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="hr">
+        <div class="port-top">
+          <div class="port-icon ic-3"><i class="fas fa-user-tie"></i></div>
+          <div class="port-cat">Sistem Sumber Manusia</div>
+          <div class="port-name">HRFlow.my</div>
+          <p class="port-desc">"HR yang melindungi syarikat anda" — sistem HR pintar untuk syarikat Malaysia urus pekerja secara sistematik dan patuh.</p>
+        </div>
+        <div class="port-for"><b>Sesuai untuk:</b> Syarikat yang mahu urus rekod pekerja, kehadiran &amp; pematuhan HR tanpa risiko fail bertaburan.</div>
+        <div class="port-bottom">
+          <a href="https://hrflow.my" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Lawati Sistem</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="projek">
+        <div class="port-top">
+          <div class="port-icon ic-4"><i class="fas fa-diagram-project"></i></div>
+          <div class="port-cat">Pengurusan Projek &amp; Perolehan</div>
+          <div class="port-name">SPP — Sistem Pengurusan Projek</div>
+          <p class="port-desc">Sistem pengurusan projek korporat 11 modul untuk Uniti Office Sdn Bhd — merangkumi BQ, perolehan (PR/PO), jadual PM/CM, kos tools, bajet, komisen sehingga laporan untung rugi (PNL) setiap projek.</p>
+        </div>
+        <div class="port-for"><b>Sesuai untuk:</b> Syarikat pembinaan / pengurusan projek yang perlu jejak BQ, perolehan, kos dan keuntungan setiap projek dalam satu sistem bersepadu, lengkap dengan kawalan akses mengikut peranan (RBAC).</div>
+        <div class="port-bottom">
+          <a href="https://spp.bmsm.asia" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Lawati Sistem</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="fintech">
+        <div class="port-top">
+          <div class="port-icon ic-5"><i class="fas fa-store"></i></div>
+          <div class="port-cat">Platform Digital Usahawan</div>
+          <div class="port-name">UMEC Biz (MyUmec.my)</div>
+          <p class="port-desc">Platform digital all-in-one untuk usahawan — tempah bilik, urus langganan, terima bayaran &amp; sertai acara, lengkap dengan portal ejen.</p>
+        </div>
+        <div class="port-for"><b>Sesuai untuk:</b> Usahawan &amp; ejen yang perlu urus tempahan, langganan dan acara dalam satu platform bersepadu.</div>
+        <div class="port-bottom">
+          <a href="https://myumec.my" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Sistem Utama</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="event">
+        <div class="port-top">
+          <div class="port-icon ic-6"><i class="fas fa-champagne-glasses"></i></div>
+          <div class="port-cat">Laman Web + Sistem Jualan</div>
+          <div class="port-name">Arina Skyview</div>
+          <p class="port-desc">Laman web katering &amp; ruang majlis premium di Menara Arina Uniti KL, dipadankan dengan sistem sebut harga &amp; tempahan pakej untuk pasukan jualan.</p>
+        </div>
+        <div class="port-for"><b>Sesuai untuk:</b> Perniagaan katering / ruang majlis yang perlukan laman web pemasaran + sistem dalaman urus sebut harga pelanggan.</div>
+        <div class="port-bottom">
+          <a href="https://arinaskyview.com" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Laman Web</a>
+          <a href="https://sales.arinaskyview.com" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Sistem Jualan</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="gov">
+        <div class="port-top">
+          <div class="port-icon ic-7"><i class="fas fa-landmark"></i></div>
+          <div class="port-cat">Agensi Kerajaan Negeri</div>
+          <div class="port-name">Yayasan Pelajaran Johor</div>
+          <p class="port-desc">Laman web rasmi YPJ — "Membina Insan Berkualiti" — maklumat biasiswa, pinjaman pelajaran, skim bantuan &amp; insentif untuk pelajar Johor.</p>
+        </div>
+        <div class="port-for"><b>Sesuai untuk:</b> Agensi kerajaan / statutori yang perlukan laman web rasmi yang dipercayai untuk perkhidmatan awam.</div>
+        <div class="port-bottom">
+          <a href="https://ypj.gov.my" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Lawati Laman Web</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="property">
+        <div class="port-top">
+          <div class="port-icon ic-8"><i class="fas fa-droplet"></i></div>
+          <div class="port-cat">Sistem Pengebilan Air</div>
+          <div class="port-name">wbill (bmsm.asia)</div>
+          <p class="port-desc">Sistem pengebilan &amp; pembayaran bil air berpusat untuk pengurusan hartanah dalam rangkaian BMS Malaysia.</p>
+        </div>
+        <div class="port-for"><b>Sesuai untuk:</b> JMB / MC yang mahu urus pengebilan air unit secara telus dan automatik.</div>
+        <div class="port-bottom">
+          <a href="https://wbill.bmsm.asia" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Lawati Sistem</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="event">
+        <div class="port-top">
+          <div class="port-icon ic-9"><i class="fas fa-heart"></i></div>
+          <div class="port-cat">Platform Majlis Kahwin Digital</div>
+          <div class="port-name">JemputanKahwin.my</div>
+          <p class="port-desc">Kad jemputan digital, RSVP masa nyata, QR check-in, floor manager &amp; marketplace vendor — semua dalam satu platform majlis kahwin.</p>
+        </div>
+        <span class="badge-stat"><i class="fas fa-chart-line"></i> 500+ majlis &middot; 2,000+ pengguna &middot; 4.9★</span>
+        <div class="port-bottom">
+          <a href="https://kahwin.mysetia.my" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Lawati Sistem</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="property">
+        <div class="port-top">
+          <div class="port-icon ic-10"><i class="fas fa-building-shield"></i></div>
+          <div class="port-cat">Sistem Pengurusan Bangunan (JMB)</div>
+          <div class="port-name">Kelisaria Portal</div>
+          <p class="port-desc">Portal pemilik &amp; pengurusan JMB untuk semak &amp; bayar bil utiliti, penyata &amp; resit, notis JMB serta direktori unit. Sistem ini dibina hasil kerjasama dengan rakan pembangun berdasarkan keperluan (URS) yang disediakan JemLee, dengan sumbangan lanjutan JemLee pada reka bentuk antara muka, modul reporting dan integrasi payment gateway.</p>
+        </div>
+        <span class="badge-stat"><i class="fas fa-handshake"></i> Kerjasama pembangunan &middot; Sumbangan JemLee: UI, Reporting &amp; Payment Gateway</span>
+        <div class="port-for"><b>Sesuai untuk:</b> Joint Management Body (JMB) dan pemilik unit kondominium / apartmen yang perlu portal berpusat dengan pembayaran dalam talian yang lancar.</div>
+        <div class="port-bottom">
+          <a href="https://kelisaria.bmsm.asia" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Lawati Sistem</a>
+        </div>
+      </div>
+
+      <div class="port-card reveal" data-cat="property">
+        <div class="port-top">
+          <div class="port-icon ic-11"><i class="fas fa-city"></i></div>
+          <div class="port-cat">Sistem Pengurusan Bangunan</div>
+          <div class="port-name">MAU Building Management</div>
+          <p class="port-desc">Sistem pengurusan bangunan untuk Menara Arina Uniti — portal log masuk berasingan untuk pentadbir dan pemilik unit. Sistem ini dibina hasil kerjasama dengan rakan pembangun berdasarkan keperluan (URS) yang disediakan JemLee, dengan sumbangan lanjutan JemLee pada reka bentuk antara muka, modul reporting dan integrasi payment gateway.</p>
+        </div>
+        <span class="badge-stat"><i class="fas fa-handshake"></i> Kerjasama pembangunan &middot; Sumbangan JemLee: UI, Reporting &amp; Payment Gateway</span>
+        <div class="port-for"><b>Sesuai untuk:</b> Pengurusan menara komersial / pejabat yang memerlukan sistem operasi berpusat, selamat dan kini dilengkapi laporan serta pembayaran dalam talian.</div>
+        <div class="port-bottom">
+          <a href="https://mau.bmsm.asia" target="_blank" rel="noopener" class="port-link"><i class="fas fa-arrow-up-right-from-square"></i> Lawati Sistem</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- KEPAKARAN / WHY -->
+<section class="sec" id="kepakaran">
+  <div class="wrap">
+    <div class="sec-eyebrow center">Kenapa Klien Pilih OmniTek</div>
+    <h2 class="sec-title center">Bukan sekadar bina sistem — memastikan ia terus berfungsi</h2>
+    <p class="sec-sub center">Setiap sistem di atas dibangunkan dan terus disokong. Ini yang membezakan pendekatan saya.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-diagram-project"></i></div>
+        <h3>End-to-End Development</h3>
+        <p>Dari analisis keperluan, reka bentuk pangkalan data, front-end, hingga integrasi pembayaran (FPX) &amp; deployment — satu tangan yang faham keseluruhan sistem.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-scale-balanced"></i></div>
+        <h3>Patuh Peraturan Malaysia</h3>
+        <p>Pengalaman membangunkan sistem yang patuh LHDN MyInvois, Akta Pertubuhan 1966 (ROS), dan keperluan pelaporan JMB / MC tempatan.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-layer-group"></i></div>
+        <h3>Merentasi Pelbagai Industri</h3>
+        <p>Perakaunan, HR, hartanah, acara, pendidikan &amp; sektor awam — pengalaman luas bermakna sistem baharu anda dibina dengan konteks industri sebenar.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-shield-halved"></i></div>
+        <h3>Keselamatan Data Diutamakan</h3>
+        <p>Sambungan SSL, kata laluan disulitkan &amp; kawalan akses berperanan (role-based access) diterapkan pada setiap sistem — termasuk portal kerajaan &amp; kewangan.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-mobile-screen-button"></i></div>
+        <h3>Reka Bentuk Responsif</h3>
+        <p>Setiap sistem berfungsi kemas di desktop dan mudah alih — penting apabila pengguna sebenar (ahli persatuan, pemilik unit, tetamu majlis) kebanyakannya guna telefon.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-headset"></i></div>
+        <h3>Sokongan Berterusan</h3>
+        <p>Sistem tidak ditinggalkan selepas pelancaran. Naik taraf, baik pulih &amp; ciri baharu terus disediakan mengikut keperluan operasi klien.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROSES -->
+<section class="sec sec-cream" id="proses">
+  <div class="wrap">
+    <div class="sec-eyebrow">Cara Kami Bekerja</div>
+    <h2 class="sec-title">Dari perbincangan pertama, ke sistem yang beroperasi</h2>
+    <p class="sec-sub">Proses yang telus supaya anda tahu apa dijangka pada setiap peringkat.</p>
+    <div class="steps-row">
+      <div class="step-col">
+        <div class="step-num">LANGKAH 01</div>
+        <div class="step-title">Fahami Keperluan</div>
+        <div class="step-desc">Sesi perbincangan untuk fahami proses kerja, masalah semasa &amp; matlamat sistem anda.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num">LANGKAH 02</div>
+        <div class="step-title">Reka Bentuk &amp; Cadangan</div>
+        <div class="step-desc">Cadangan skop, senibina sistem &amp; anggaran masa disediakan sebelum kerja pembangunan bermula.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num">LANGKAH 03</div>
+        <div class="step-title">Bangun &amp; Uji</div>
+        <div class="step-desc">Pembangunan berperingkat dengan kemas kini berkala, diikuti pengujian sebelum pelancaran.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num">LANGKAH 04</div>
+        <div class="step-title">Lancar &amp; Sokong</div>
+        <div class="step-desc">Sistem dilancarkan dengan latihan pengguna, dan terus disokong untuk naik taraf akan datang.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="wrap cta-inner">
+    <div class="sec-eyebrow">Ada Idea Sistem?</div>
+    <h2>Mari bina sistem yang benar-benar digunakan oleh perniagaan anda.</h2>
+    <p>Sama ada anda perlukan sistem baharu dari kosong, atau laman web yang mengukuhkan kepercayaan klien — jom bincang keperluan anda.</p>
+    <div class="cta-btns">
+      <a href="#hubungi" class="btn btn-primary"><i class="fas fa-comments"></i> Hubungi Saya Sekarang</a>
+      <a href="#portfolio" class="btn btn-ghost"><i class="fas fa-eye"></i> Semak Semula Portfolio</a>
+    </div>
+  </div>
+</section>
+
+<!-- HUBUNGI -->
+<section class="sec" id="hubungi">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <div class="sec-eyebrow">Hubungi Saya</div>
+      <h2 class="sec-title">Sedia untuk bincang projek anda?</h2>
+      <p class="sec-sub">Isi ringkas keperluan sistem anda, atau hubungi terus melalui saluran di bawah.</p>
+      <div class="contact-list">
+        <div class="contact-item">
+          <div class="ic"><i class="fas fa-envelope"></i></div>
+          <div><h4>Emel</h4><a href="mailto:hello@omnitek.my">hello@omnitek.my</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ic"><i class="fab fa-whatsapp"></i></div>
+          <div><h4>WhatsApp</h4><a href="https://wa.me/60193308277" target="_blank" rel="noopener">+60 19-330 8277</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ic"><i class="fas fa-location-dot"></i></div>
+          <div><h4>Kawasan Operasi</h4><p>Berkhidmat merentasi Malaysia (remote &amp; on-site)</p></div>
+        </div>
+      </div>
+      <div class="note-placeholder"><i class="fas fa-circle-info"></i> Emel di atas masih ruang letak (placeholder) — sila gantikan dengan alamat emel sebenar sebelum laman web ini diterbitkan.</div>
+    </div>
+
+    <div class="form-card reveal">
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="fg">
+            <label for="nama">Nama</label>
+            <input type="text" id="nama" name="Nama" placeholder="Nama penuh anda" required>
+          </div>
+          <div class="fg">
+            <label for="syarikat">Syarikat / Organisasi</label>
+            <input type="text" id="syarikat" name="Syarikat" placeholder="Pilihan">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label for="emel">Emel</label>
+            <input type="email" id="emel" name="Emel" placeholder="emel@contoh.com" required>
+          </div>
+          <div class="fg">
+            <label for="jenis">Jenis Sistem Diperlukan</label>
+            <select id="jenis" name="Jenis Sistem">
+              <option>Laman Web Korporat</option>
+              <option>Sistem Perakaunan / Kewangan</option>
+              <option>Sistem HR</option>
+              <option>Sistem Pengurusan Hartanah / JMB</option>
+              <option>Platform Acara / E-dagang</option>
+              <option>Lain-lain</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg">
+          <label for="mesej">Ceritakan Ringkas Keperluan Anda</label>
+          <textarea id="mesej" name="Mesej" placeholder="Contoh: Kami perlukan sistem tempahan dalaman untuk urus pesanan pelanggan..." required></textarea>
+        </div>
+        <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off">
+        <button type="submit" class="submit-btn" id="submitBtn"><i class="fas fa-paper-plane"></i> Hantar Pertanyaan</button>
+        <p class="form-hint" id="formStatus">Pertanyaan anda akan dihantar terus ke emel kami.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#hero" class="brand"><span class="mark">OT</span><span>OmniTek</span></a>
+        <p>Pembangunan sistem &amp; laman web oleh JemLee — dari PKS hingga agensi kerajaan, dibina untuk digunakan setiap hari.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://wa.me/60193308277" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Portfolio</h4>
+        <ul>
+          <li><a href="https://sme-point.my" target="_blank" rel="noopener">SME-Point.my</a></li>
+          <li><a href="https://mysetia.my" target="_blank" rel="noopener">mySetia.my</a></li>
+          <li><a href="https://hrflow.my" target="_blank" rel="noopener">HRFlow.my</a></li>
+          <li><a href="https://kahwin.mysetia.my" target="_blank" rel="noopener">JemputanKahwin.my</a></li>
+          <li><a href="#portfolio">Lihat Semua Sistem</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Laman</h4>
+        <ul>
+          <li><a href="#tentang">Tentang Saya</a></li>
+          <li><a href="#kepakaran">Kepakaran</a></li>
+          <li><a href="#proses">Cara Kami Bekerja</a></li>
+          <li><a href="#hubungi">Hubungi</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-btm">
+      <span>&copy; 2026 OmniTek &middot; JemLee. Hak cipta terpelihara.</span>
+      <span>Dibina dengan &#10084; di Malaysia</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/60193308277" target="_blank" rel="noopener" class="whatsapp-float" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<script>
+  // Hero slideshow
+  (() => {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dotsWrap = document.getElementById('heroDots');
+    if (!slides.length) return;
+    let current = 0;
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', 'Slaid ' + (i + 1));
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+    const dots = dotsWrap.querySelectorAll('button');
+    function goTo(i) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = i;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+    setInterval(() => goTo((current + 1) % slides.length), 5000);
+  })();
+
+  // Nav scroll state
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburgerBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+    const icon = hamburgerBtn.querySelector('i');
+    icon.classList.toggle('fa-bars');
+    icon.classList.toggle('fa-times');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    const icon = hamburgerBtn.querySelector('i');
+    icon.classList.add('fa-bars');
+    icon.classList.remove('fa-times');
+  }));
+
+  // Portfolio filter
+  const filterBar = document.getElementById('filterBar');
+  const cards = document.querySelectorAll('#portGrid .port-card');
+  filterBar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    filterBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    cards.forEach(card => {
+      const show = f === 'all' || card.dataset.cat === f;
+      card.style.display = show ? 'flex' : 'none';
+    });
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal, .port-card, .why-card, .step-col');
+  revealEls.forEach(el => el.classList.add('reveal'));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Contact form (backend PHP handler)
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    const statusEl = document.getElementById('formStatus');
+    const submitBtn = document.getElementById('submitBtn');
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.classList.remove('ok', 'err');
+      statusEl.textContent = 'Menghantar...';
+      submitBtn.disabled = true;
+      try {
+        const res = await fetch('send-mail.php', {
+          method: 'POST',
+          body: new FormData(contactForm)
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          statusEl.textContent = 'Terima kasih! Pertanyaan anda telah dihantar. Kami akan hubungi anda tidak lama lagi.';
+          statusEl.classList.add('ok');
+          contactForm.reset();
+        } else {
+          statusEl.textContent = data.message || 'Gagal menghantar. Sila cuba lagi atau emel terus ke hello@omnitek.my.';
+          statusEl.classList.add('err');
+        }
+      } catch (err) {
+        statusEl.textContent = 'Ralat rangkaian. Sila cuba lagi atau emel terus ke hello@omnitek.my.';
+        statusEl.classList.add('err');
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+</script>
+</body>
+</html>
