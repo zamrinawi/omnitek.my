@@ -24,7 +24,7 @@ if (!empty($_POST['website'])) {
 $nama     = trim($_POST['Nama'] ?? '');
 $syarikat = trim($_POST['Syarikat'] ?? '');
 $emel     = trim($_POST['Emel'] ?? '');
-$jenis    = trim($_POST['Jenis Sistem'] ?? '');
+$jenis    = trim($_POST['Jenis_Sistem'] ?? '');
 $mesej    = trim($_POST['Mesej'] ?? '');
 
 // Validasi medan wajib
